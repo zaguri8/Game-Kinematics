@@ -251,13 +251,7 @@ setInterval(() => {
         player.getPosition()[1] + 3
     ))
 
-    const steering = {
-        linear: [0, 0],
-        angular: 0
-    } as SteeringOutput
 
-    // const kinematicSteering = KinematicSeek(player.kinematics, player2.kinematics);
-    player.updateSteering(steering, dt);
 
     const kinematicSteering = KinematicArrive(player.kinematics, player2.kinematics);
 
@@ -268,3 +262,6 @@ setInterval(() => {
 }, 16.6666666) // 60 FPS ?
 
 window.onload = init;
+
+
+export {}

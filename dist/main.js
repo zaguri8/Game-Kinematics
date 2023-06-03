@@ -147,14 +147,10 @@ setInterval(() => {
     keys['ArrowLeft'] && player.setPosition(vec2.fromValues(player.getPosition()[0] - 3, player.getPosition()[1]));
     keys['ArrowUp'] && player.setPosition(vec2.fromValues(player.getPosition()[0], player.getPosition()[1] - 3));
     keys['ArrowDown'] && player.setPosition(vec2.fromValues(player.getPosition()[0], player.getPosition()[1] + 3));
-    const steering = {
-        linear: [0, 0],
-        angular: 0
-    };
-    player.updateSteering(steering, dt);
     const kinematicSteering = KinematicArrive(player.kinematics, player2.kinematics);
     const enemeySteering = kinematicSteering.getSteering();
     if (enemeySteering)
         player2.updateSteering(enemeySteering, dt);
 }, 16.6666666);
 window.onload = init;
+export {};
