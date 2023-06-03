@@ -84,35 +84,46 @@ function KinematicArrive(target: Kinematics, character: Kinematics) {
                 linear: vec2.create(),
                 angular: 0
             } as SteeringOutput
+
+
+            // Get Direction to target
             const direction = vec2.subtract(vec2.create(), target.position, character.position);
+
+            // Get Distance to target
             const distance = vec2.length(direction)
+
             if (distance < this.targetRadius) {
+                // If inside the target-radius return no steering
                 return
             }
             let targetSpeed: number;
 
             if (distance > this.slowRadius) {
+                // if we are outside the slow-radius go max-speed
                 targetSpeed = this.maxSpeed;
-            } else {
-                targetSpeed = this.maxSpeed * distance / this.slowRadius;
+            } else { //   0 < (distance / this.slowRadius) < 1
+                // calculate a scaled speed
+                targetSpeed = this.maxSpeed * (distance / this.slowRadius);
             }
 
+
+            // Calculate target velocity (Unit Vector DirToTarget * Speed)
             let targetVelocity = vec2.clone(direction);
             vec2.normalize(targetVelocity, targetVelocity);
 
             targetVelocity[0] *= targetSpeed;
             targetVelocity[1] *= targetSpeed;
 
-            steering.linear[0] = targetVelocity[0] - character.velocity[0]
-            steering.linear[1] = targetVelocity[1] - character.velocity[1]
+            // Try to get to the target velocity
+            vec2.subtract(steering.linear, targetVelocity, character.velocity);
 
             steering.linear[1] /= this.timeToTarget
 
 
-
+            // Check if acceleration is too fast
             if (vec2.length(steering.linear) > this.maxAccelaration) {
+                // Clamp to max-acceleration
                 vec2.normalize(steering.linear, steering.linear);
-                // full speed towards direction
                 steering.linear[0] *= this.maxAccelaration;
                 steering.linear[1] *= this.maxAccelaration;
             }
@@ -264,4 +275,4 @@ setInterval(() => {
 window.onload = init;
 
 
-export {}
+export { }
