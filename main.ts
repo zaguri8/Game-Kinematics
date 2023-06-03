@@ -198,14 +198,7 @@ const compose = <S, R, T>(
         return fn2(fn(args)) as S & T
     }
 }
-const compose_3 = <S, R, T, Z>(
-    fn: (args: R) => S,
-    fn2: (args: S) => T,
-    fn3: (args: T) => Z) => {
-    return (args: R): S & T & Z => {
-        return fn3(fn2(fn(args))) as S & T & Z
-    }
-}
+
 
 const Controller = compose(Player, PlayerController)
 
